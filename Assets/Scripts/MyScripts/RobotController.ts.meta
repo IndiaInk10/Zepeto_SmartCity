@@ -1,0 +1,85 @@
+fileFormatVersion: 2
+guid: 23b391c576d573e47b7a3054125c6690
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_AI_1 = require(\"UnityEngine.AI\");\r\nconst
+    GameManager_1 = require(\"./GameManager\");\r\nvar RobotState;\r\n(function (RobotState)
+    {\r\n    RobotState[\"Stop\"] = \"Stop\";\r\n    RobotState[\"Shipping\"] = \"Shipping\";\r\n   
+    RobotState[\"Open\"] = \"Open\";\r\n    RobotState[\"Act\"] = \"Act\";\r\n   
+    RobotState[\"Close\"] = \"Close\";\r\n    RobotState[\"Arrive\"] = \"Stop\";\r\n   
+    RobotState[\"Returning\"] = \"Returning\";\r\n})(RobotState || (RobotState =
+    {}));\r\nconst IDLE = \"Idle\";\r\nclass RobotController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.callButton
+    = null;\r\n        this.target = null;\r\n        this.packageRigid = null;\r\n       
+    this.packageParent = null;\r\n        this.navMesh = null;\r\n        this.state
+    = RobotState.Stop;\r\n        this.animator = null;\r\n        this.CoStart =
+    null;\r\n        this.CoArrive = null;\r\n        this.CoAnimation = null;\r\n       
+    this.CoDrop = null;\r\n        this.CoReturn = null;\r\n    }\r\n    Start()
+    {\r\n        this.returnPos = this.transform.position;\r\n        this.packageParent
+    = this.packageRigid.transform.parent;\r\n        this.navMesh = this.GetComponent($typeof(UnityEngine_AI_1.NavMeshAgent));\r\n       
+    this.callButton.onClick.AddListener(() => this.OnClickCall());\r\n        this.animator
+    = this.GetComponent($typeof(UnityEngine_1.Animator));\r\n        this.Invoke(\"SetTarget\",
+    1);\r\n    }\r\n    SetTarget() {\r\n        this.target = GameManager_1.default.localPlayerTr;\r\n   
+    }\r\n    OnClickCall() {\r\n        if (this.state == RobotState.Returning)\r\n           
+    return;\r\n        if (this.target == null) {\r\n            this.CancelInvoke();\r\n           
+    this.SetTarget();\r\n        }\r\n        if (this.CoStart != null)\r\n           
+    this.StopCoroutine(this.CoStart);\r\n        this.CoStart = this.StartCoroutine(this.CoStartToDelivery());\r\n   
+    }\r\n    *CoStartToDelivery() {\r\n        this.state = RobotState.Shipping;\r\n       
+    this.animator.CrossFade(IDLE, 0);\r\n        this.navMesh.SetDestination(this.target.position);\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.1);\r\n        if (this.CoArrive !=
+    null)\r\n            this.StopCoroutine(this.CoArrive);\r\n        this.CoArrive
+    = this.StartCoroutine(this.CoCheckArrive(true));\r\n    }\r\n    *CoCheckArrive(isShipping)
+    {\r\n        let checkState = isShipping ? RobotState.Shipping : RobotState.Returning;\r\n       
+    while (this.state == checkState) {\r\n            if (this.navMesh.remainingDistance
+    < 1)\r\n                this.state = RobotState.Arrive;\r\n            yield
+    new UnityEngine_1.WaitForSeconds(0.5);\r\n        }\r\n        if (checkState
+    == RobotState.Shipping) {\r\n            if (this.CoDrop != null)\r\n               
+    this.StopCoroutine(this.CoDrop);\r\n            this.CoDrop = this.StartCoroutine(this.CoDropPackage());\r\n       
+    }\r\n        else\r\n            this.ResetPackage();\r\n    }\r\n    *CoDoAnimation(nextState)
+    {\r\n        this.state = RobotState.Act;\r\n        this.animator.CrossFade(nextState,
+    0);\r\n        yield new UnityEngine_1.WaitForSeconds(0.01);\r\n        yield
+    new UnityEngine_1.WaitForSeconds(this.animator.GetCurrentAnimatorStateInfo(0).length);\r\n       
+    this.state = nextState;\r\n    }\r\n    *CoDropPackage() {\r\n        // Open\r\n       
+    if (this.CoAnimation != null)\r\n            this.StopCoroutine(this.CoAnimation);\r\n       
+    this.CoAnimation = this.StartCoroutine(this.CoDoAnimation(RobotState.Open));\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.01);\r\n        yield new UnityEngine_1.WaitForSeconds(this.animator.GetCurrentAnimatorStateInfo(0).length);\r\n       
+    this.packageRigid.transform.parent = null;\r\n        this.packageRigid.isKinematic
+    = false;\r\n        yield new UnityEngine_1.WaitForSeconds(0.1);\r\n        this.packageRigid.AddForce(UnityEngine_1.Vector3.op_Multiply(this.packageRigid.transform.forward,
+    4.5), UnityEngine_1.ForceMode.Impulse);\r\n        // Close\r\n        if (this.CoAnimation
+    != null)\r\n            this.StopCoroutine(this.CoAnimation);\r\n        this.CoAnimation
+    = this.StartCoroutine(this.CoDoAnimation(RobotState.Close));\r\n        yield
+    new UnityEngine_1.WaitForSeconds(0.01);\r\n        yield new UnityEngine_1.WaitForSeconds(this.animator.GetCurrentAnimatorStateInfo(0).length);\r\n       
+    if (this.CoReturn != null)\r\n            this.StopCoroutine(this.CoReturn);\r\n       
+    this.CoReturn = this.StartCoroutine(this.CoReturnToBase());\r\n    }\r\n    ResetPackage()
+    {\r\n        this.state = RobotState.Stop;\r\n        this.animator.CrossFade(this.state,
+    0);\r\n        this.transform.position = this.returnPos;\r\n        this.transform.rotation
+    = UnityEngine_1.Quaternion.identity;\r\n        this.packageRigid.transform.SetParent(this.packageParent);\r\n       
+    this.packageRigid.transform.localPosition = UnityEngine_1.Vector3.zero;\r\n       
+    this.packageRigid.transform.localRotation = UnityEngine_1.Quaternion.identity;\r\n       
+    this.packageRigid.isKinematic = true;\r\n        this.packageRigid.gameObject.SetActive(true);\r\n   
+    }\r\n    *CoReturnToBase() {\r\n        this.state = RobotState.Returning;\r\n       
+    this.animator.CrossFade(IDLE, 0);\r\n        this.navMesh.SetDestination(this.returnPos);\r\n       
+    yield new UnityEngine_1.WaitForSeconds(0.1);\r\n        if (this.CoArrive !=
+    null)\r\n            this.StopCoroutine(this.CoArrive);\r\n        this.CoArrive
+    = this.StartCoroutine(this.CoCheckArrive(false));\r\n    }\r\n}\r\nexports.default
+    = RobotController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUm9ib3RDb250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiUm9ib3RDb250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBRXJELDZDQUE4SDtBQUU5SCxtREFBNkM7QUFDN0MsK0NBQXVDO0FBRXZDLElBQUssVUFTSjtBQVRELFdBQUssVUFBVTtJQUVYLDJCQUFhLENBQUE7SUFDYixtQ0FBcUIsQ0FBQTtJQUNyQiwyQkFBYSxDQUFBO0lBQ2IseUJBQVcsQ0FBQTtJQUNYLDZCQUFlLENBQUE7SUFDZiw2QkFBZSxDQUFBO0lBQ2YscUNBQXVCLENBQUE7QUFDM0IsQ0FBQyxFQVRJLFVBQVUsS0FBVixVQUFVLFFBU2Q7QUFFRCxNQUFNLElBQUksR0FBVyxNQUFNLENBQUM7QUFFNUIsTUFBcUIsZUFBZ0IsU0FBUSxxQ0FBcUI7SUFBbEU7O1FBRVksZUFBVSxHQUFXLElBQUksQ0FBQztRQUcxQixXQUFNLEdBQWMsSUFBSSxDQUFDO1FBRXpCLGlCQUFZLEdBQWMsSUFBSSxDQUFDO1FBQy9CLGtCQUFhLEdBQWMsSUFBSSxDQUFDO1FBRWhDLFlBQU8sR0FBaUIsSUFBSSxDQUFDO1FBRzdCLFVBQUssR0FBZSxVQUFVLENBQUMsSUFBSSxDQUFDO1FBQ3BDLGFBQVEsR0FBYSxJQUFJLENBQUM7UUFFMUIsWUFBTyxHQUFjLElBQUksQ0FBQztRQUMxQixhQUFRLEdBQWMsSUFBSSxDQUFDO1FBQzNCLGdCQUFXLEdBQWMsSUFBSSxDQUFDO1FBQzlCLFdBQU0sR0FBYyxJQUFJLENBQUM7UUFDekIsYUFBUSxHQUFjLElBQUksQ0FBQztJQThIdkMsQ0FBQztJQTVIVyxLQUFLO1FBRVQsSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztRQUN6QyxJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDLE1BQU0sQ0FBQztRQUV4RCxJQUFJLENBQUMs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","assetPath":"Assets/Scripts/MyScripts/RobotController.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"callButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"target","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.PhysicsModule","name":"packageRigid","type":"UnityEngine.Rigidbody","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"RobotController","description":""},"isCompiled":true}'
+  typescriptHash: 38378faa99f9f01485d2bfd385c368d7
+  onlyWriteTrigger: 0

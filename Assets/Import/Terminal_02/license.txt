@@ -1,0 +1,11 @@
+Model Information:
+* title:	Terminal 02
+* source:	https://sketchfab.com/3d-models/terminal-02-be1dfa8354af401c8e46910e24b11281
+* author:	ROTFLOL (https://sketchfab.com/rotfloldude)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Terminal 02" (https://sketchfab.com/3d-models/terminal-02-be1dfa8354af401c8e46910e24b11281) by ROTFLOL (https://sketchfab.com/rotfloldude) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Futuristic low poly car
+* source:	https://sketchfab.com/3d-models/futuristic-low-poly-car-e7b9a7f71bc44af1b84913cb6c5e5bfc
+* author:	Unicornanimo (https://sketchfab.com/girisubhadip)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Futuristic low poly car" (https://sketchfab.com/3d-models/futuristic-low-poly-car-e7b9a7f71bc44af1b84913cb6c5e5bfc) by Unicornanimo (https://sketchfab.com/girisubhadip) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Futuristic Solar Bus
+* source:	https://sketchfab.com/3d-models/futuristic-solar-bus-40271279c101439cb35a2b46f2add2a3
+* author:	Andrew Sliwowski (https://sketchfab.com/Aerocendance)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Futuristic Solar Bus" (https://sketchfab.com/3d-models/futuristic-solar-bus-40271279c101439cb35a2b46f2add2a3) by Andrew Sliwowski (https://sketchfab.com/Aerocendance) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

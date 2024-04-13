@@ -1,0 +1,48 @@
+fileFormatVersion: 2
+guid: c3d3b511fb3a4fe41b1c6c518d2e9e8b
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nclass MoveWayPoints extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.wayPointsGroup
+    = null;\r\n        this.wayPoints = [];\r\n        this.speed = 2.0;\r\n       
+    this.index = 0;\r\n        this.speedPerTime = 0.0;\r\n        this.relativePos
+    = UnityEngine_1.Vector3.zero;\r\n        this.targetRot = UnityEngine_1.Quaternion.identity;\r\n       
+    this.rotateWeight = 2;\r\n        this.isStart = false;\r\n    }\r\n    Start()
+    {\r\n        if (this.wayPointsGroup != null) {\r\n            this.wayPoints
+    = this.wayPointsGroup.GetComponentsInChildren($typeof(UnityEngine_1.Transform));\r\n           
+    // Parent''s Transform\r\n            this.wayPoints.splice(0, 1);\r\n       
+    }\r\n    }\r\n    FixedUpdate() {\r\n        if (!this.isStart)\r\n           
+    return;\r\n        if (this.wayPointsGroup != null) {\r\n            if (UnityEngine_1.Vector3.op_Subtraction(this.transform.position,
+    this.wayPoints[this.index].position).sqrMagnitude < 0.25) {\r\n               
+    this.index++;\r\n                if (this.index >= this.wayPoints.length) {\r\n                   
+    this.index = 0;\r\n                    this.InitPos();\r\n                }\r\n           
+    }\r\n            this.relativePos = UnityEngine_1.Vector3.op_Subtraction(this.wayPoints[this.index].position,
+    this.transform.position);\r\n            this.targetRot = UnityEngine_1.Quaternion.LookRotation(this.relativePos);\r\n           
+    this.transform.rotation = UnityEngine_1.Quaternion.Lerp(this.transform.rotation,
+    this.targetRot, this.rotateWeight * UnityEngine_1.Time.fixedDeltaTime);\r\n           
+    this.speedPerTime = UnityEngine_1.Time.fixedDeltaTime * this.speed;\r\n           
+    this.transform.Translate(UnityEngine_1.Vector3.op_Multiply(UnityEngine_1.Vector3.forward,
+    this.speedPerTime));\r\n        }\r\n    }\r\n    InitPos() {\r\n        this.isStart
+    = false;\r\n        this.transform.position = this.wayPoints[this.wayPoints.length
+    - 1].position;\r\n        this.transform.rotation = UnityEngine_1.Quaternion.Euler(0,
+    180, 0);\r\n    }\r\n}\r\nexports.default = MoveWayPoints;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW92ZVdheVBvaW50cy5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIk1vdmVXYXlQb2ludHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFDckQsNkNBQThFO0FBRzlFLE1BQXFCLGFBQWMsU0FBUSxxQ0FBcUI7SUFBaEU7O1FBQ1csbUJBQWMsR0FBZSxJQUFJLENBQUM7UUFDakMsY0FBUyxHQUFnQixFQUFFLENBQUM7UUFFNUIsVUFBSyxHQUFVLEdBQUcsQ0FBQztRQUNuQixVQUFLLEdBQVEsQ0FBQyxDQUFDO1FBQ2YsaUJBQVksR0FBVSxHQUFHLENBQUM7UUFFMUIsZ0JBQVcsR0FBWSxxQkFBTyxDQUFDLElBQUksQ0FBQztRQUNwQyxjQUFTLEdBQWUsd0JBQVUsQ0FBQyxRQUFRLENBQUM7UUFDNUMsaUJBQVksR0FBVSxDQUFDLENBQUM7UUFFekIsWUFBTyxHQUFZLEtBQUssQ0FBQztJQW9DcEMsQ0FBQztJQWxDVyxLQUFLO1FBQ1QsSUFBSSxJQUFJLENBQUMsY0FBYyxJQUFJLElBQUksRUFBRTtZQUM3QixJQUFJLENBQUMsU0FBUyxHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsdUJBQXVCLFNBQUMsdUJBQVMsRUFBRyxDQUFDO1lBQzFFLHFCQUFxQjtZQUNyQixJQUFJLENBQUMsU0FBUyxDQUFDLE1BQU0sQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLENBQUM7U0FDL0I7SUFDTCxDQUFDO0lBRU8sV0FBVztRQUNmLElBQUksQ0FBQyxJQUFJLENBQUMsT0FBTztZQUFFLE9BQU87UUFFMUIsSUFBSSxJQUFJLENBQUMsY0FBYyxJQUFJLElBQUksRUFBRTtZQUM3QixJQUFJLHFCQUFPLENBQUMsY0FBYyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxTQUFTLENBQUMsSUFBSSxDQUFDLEtBQUssQ0FBQyxDQUFDLFFBQVEsQ0FBQyxDQUFDLFlBQVksR0FBRyxJQUFJLEVBQUU7Z0JBQzFHLElBQUksQ0FBQyxLQUFLLEVBQUUsQ0FBQztnQkFDYixJQUFJLElBQUksQ0FBQyxLQUFLLElBQUksSUFBSSxDQUFDLFNBQVMsQ0FBQyxNQUFNLEVBQUU7b0JBQ3JDLElBQUksQ0FBQyxLQUFLLEdBQUcsQ0FBQyxDQUFDO29CQUNmLElBQUksQ0FBQyxPQUFPLEVBQUUsQ0FBQztpQkFDbEI7YUFDSjtZQUNELElBQUksQ0FBQyxXQUFXLEdBQUcscUJBQU8sQ0FBQyxjQUFjLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDLENBQUM7WUFDeEcsSUFBSSxDQUFDLFNBQVMsR0FBRyx3QkFBVSxDQUFDLFlBQVksQ0FBQyxJQUFJLENBQUMsV0FBVyxDQUFDLENBQUM7WUFDM0QsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsd0JBQVUsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLEVBQUUsSUFBSSxDQUFDLFNBQVMsRUFBRSxJQUFJLENBQUMsWUFBWSxHQUFHLGtCQUFJLENBQUMsY0FBYyxDQUFDLENBQUM7WUFFNUgsSUFBSSxDQUFDLFlBQVksR0FBRyxrQkFBSSxDQUFDLGNBQWMsR0FBRyxJQUFJLENBQUMsS0FBSyxDQUFDO1lBQ3JELElBQUksQ0FBQyxTQUFTLENBQUMsU0FBUyxDQUFDLHFCQUFPLENBQUMsV0FBVyxDQUFDLHFCQUFPLENBQUMsT0FBTyxFQUFFLElBQUksQ0FBQyxZQUFZLENBQUMsQ0FBQyxDQUFDO1NBQ3JGO0lBQ0wsQ0FBQztJQUVPLE9BQU87UUFFWCxJQUFJLENBQUMsT0FBTyxHQUFHLEtBQUssQ0FBQztRQUNyQixJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxTQUFTLENBQUMsTUFBTSxHQUFHLENBQUMsQ0FBQyxDQUFDLFFBQVEsQ0FBQztRQUM3RSxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsR0FBRyx3QkFBVSxDQUFDLEtBQUssQ0FBQyxDQUFDLEVBQUUsR0FBRyxFQUFFLENBQUMsQ0FBQyxDQUFDO0lBQzFELENBQUM7Q0FDSjtBQWhERCxnQ0FnREMifQ==","assetPath":"Assets/Scripts/MyScripts/MoveWayPoints.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"wayPointsGroup","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isStart","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"MoveWayPoints","description":""},"isCompiled":true}'
+  typescriptHash: 47f973ac5fd2647adbbf3ee3b34445ff
+  onlyWriteTrigger: 0

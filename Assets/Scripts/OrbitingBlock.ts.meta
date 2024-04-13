@@ -1,0 +1,51 @@
+fileFormatVersion: 2
+guid: cbfdf2d3d3d52be47af8bbec78fc587b
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nclass OrbitingBlock extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        // Block
+    Rotation Variables\r\n        this.rotSpeed = 0;\r\n        this.characterSpeedControlValue
+    = 6;\r\n        this.isLocalPlayerOnBlock = false;\r\n        this.prevBlockPosition
+    = UnityEngine_1.Vector3.zero;\r\n    }\r\n    Start() {\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    this.localCharacterController = this.localCharacter.GetComponent($typeof(UnityEngine_1.CharacterController));\r\n       
+    });\r\n        this.isLocalPlayerOnBlock = false;\r\n        this.rotateAroundAxis
+    = UnityEngine_1.Vector3.down;\r\n    }\r\n    Update() {\r\n        // Block
+    Orbit\r\n        this.transform.RotateAround(this.rotatingPoint.position, this.rotateAroundAxis,
+    this.rotSpeed * UnityEngine_1.Time.deltaTime);\r\n        // Move Character along
+    with the block character is standing on.\r\n        this.MoveCharacterWithBlock();\r\n   
+    }\r\n    OnTriggerEnter(coll) {\r\n        if (coll.gameObject == this.localCharacter.gameObject)
+    {\r\n            this.isLocalPlayerOnBlock = true;\r\n        }\r\n    }\r\n   
+    OnTriggerExit(coll) {\r\n        if (coll.gameObject != this.localCharacter.gameObject)
+    {\r\n            return;\r\n        }\r\n        this.isLocalPlayerOnBlock =
+    false;\r\n    }\r\n    /* MoveCharacterWithBlock()\r\n       - Move the character
+    along with the block.\r\n    */\r\n    MoveCharacterWithBlock() {\r\n       
+    // Create a direction vector in the blocks forward direction. \r\n        let
+    curBlockPosition = this.transform.position;\r\n        let forwardVector = (UnityEngine_1.Vector3.op_Subtraction(curBlockPosition,
+    this.prevBlockPosition)).normalized;\r\n        this.prevBlockPosition = this.transform.position;\r\n       
+    // Move the local character. \r\n        if (this.isLocalPlayerOnBlock) {\r\n           
+    this.localCharacterController.Move(UnityEngine_1.Vector3.op_Multiply(UnityEngine_1.Vector3.op_Multiply(forwardVector,
+    (this.rotSpeed / this.characterSpeedControlValue)), UnityEngine_1.Time.deltaTime));\r\n       
+    }\r\n    }\r\n}\r\nexports.default = OrbitingBlock;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiT3JiaXRpbmdCbG9jay5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIk9yYml0aW5nQmxvY2sudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSw2Q0FBc0Y7QUFDdEYsaURBQXFEO0FBQ3JELDZFQUE0RTtBQUU1RSxNQUFxQixhQUFjLFNBQVEscUNBQXFCO0lBQWhFOztRQUVJLDJCQUEyQjtRQUVwQixhQUFRLEdBQVcsQ0FBQyxDQUFDO1FBRXJCLCtCQUEwQixHQUFXLENBQUMsQ0FBQztRQUt0Qyx5QkFBb0IsR0FBWSxLQUFLLENBQUM7UUFHdEMsc0JBQWlCLEdBQVkscUJBQU8sQ0FBQyxJQUFJLENBQUM7SUFvRHRELENBQUM7SUFsRFcsS0FBSztRQUVULDJDQUFhLENBQUMsUUFBUSxDQUFDLGtCQUFrQixDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUU7WUFDdkQsSUFBSSxDQUFDLGNBQWMsR0FBRywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxXQUFXLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQztZQUNoRixJQUFJLENBQUMsd0JBQXdCLEdBQUcsSUFBSSxDQUFDLGNBQWMsQ0FBQyxZQUFZLFNBQUMsaUNBQW1CLEVBQUcsQ0FBQztRQUM1RixDQUFDLENBQUMsQ0FBQztRQUVILElBQUksQ0FBQyxvQkFBb0IsR0FBRyxLQUFLLENBQUM7UUFDbEMsSUFBSSxDQUFDLGdCQUFnQixHQUFHLHFCQUFPLENBQUMsSUFBSSxDQUFDO0lBQ3pDLENBQUM7SUFFTyxNQUFNO1FBRVYsY0FBYztRQUNkLElBQUksQ0FBQyxTQUFTLENBQUMsWUFBWSxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsUUFBUSxFQUFFLElBQUksQ0FBQyxnQkFBZ0IsRUFBRSxJQUFJLENBQUMsUUFBUSxHQUFHLGtCQUFJLENBQUMsU0FBUyxDQUFDLENBQUM7UUFFaEgsZ0VBQWdFO1FBQ2hFLElBQUksQ0FBQyxzQkFBc0IsRUFBRSxDQUFDO0lBQ2xDLENBQUM7SUFFTyxjQUFjLENBQUMsSUFBYztRQUVqQyxJQUFJLElBQUksQ0FBQyxVQUFVLElBQUksSUFBSSxDQUFDLGNBQWMsQ0FBQyxVQUFVLEVBQUU7WUFDbkQsSUFBSSxDQUFDLG9CQUFvQixHQUFHLElBQUksQ0FBQztTQUNwQztJQUNMLENBQUM7SUFFTyxhQUFhLENBQUMsSUFBYztRQUNoQyxJQUFJLElBQUksQ0FBQyxVQUFVLElBQUksSUFBSSxDQUFDLGNBQWMsQ0FBQyxVQUFVLEVBQUU7WUFDbkQsT0FBTztTQUNWO1FBQ0QsSUFBSSxDQUFDLG9CQUFvQixHQUFHLEtBQUssQ0FBQztJQUN0QyxDQUFDO0lBRUQ7O01BRUU7SUFDTSxzQkFBc0I7UUFFMUIsOERBQThEO1FBQzlELElBQUksZ0JBQWdCLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUM7UUFDL0MsSUFBSSxhQUFhLEdBQUcsQ0E3RGtCLHFCQUFPLENBc0V1Nm1CLGNBQWUsQ0FUOThtQixnQkFBZ0IsRUFBRyxJQUFJLENBQUMsaUJBQWlCLEVBQUMsQ0FBQyxVQUFVLENBQUM7UUFDM0UsSUFBSSxDQUFDLGlCQUFpQixHQUFHLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxDQUFDO1FBRWpELDZCQUE2QjtRQUM3QixJQUFJLElBQUksQ0FBQyxvQkFBb0IsRUFBRTtZQUMzQixJQUFJLENBQUMsd0JBQXdCLENBQUMsSUFBSSxDQWxFQSxxQkFBTyxDQXNFeW5uQixXQUFZLENBdEU1b25CLHFCQUFPLENBc0V5bm5CLFdBQVksQ0FKM29uQixhQUFhLEVBQUcsQ0FBQyxJQUFJLENBQUMsUUFBUSxHQUFHLElBQUksQ0FBQywwQkFBMEIsQ0FBQyxHQUFHLGtCQUFJLENBQUMsU0FBUyxFQUFDLENBQUM7U0FDMUg7SUFDTCxDQUFDO0NBRUo7QUFsRUQsZ0NBa0VDIn0=","assetPath":"Assets/Scripts/OrbitingBlock.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"rotSpeed","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Orbit
+    Block\""]}]},{"assembly":"UnityEngine.CoreModule","name":"rotatingPoint","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"characterSpeedControlValue","type":"System.Single","isArray":false,"initValue":["6"],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"OrbitingBlock","description":""},"isCompiled":true}'
+  typescriptHash: 0c6e35a30e19a2ad91fa06a4a4cd8b58
+  onlyWriteTrigger: 0

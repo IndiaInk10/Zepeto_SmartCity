@@ -1,0 +1,54 @@
+fileFormatVersion: 2
+guid: 10952dca24bf7a147aca10ed9881b749
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst GameManager_1 = require(\"../MyScripts/GameManager\");\r\nclass
+    ScalingPopUI extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.uiRect = null;\r\n        //
+    @SerializeField()\r\n        // private scalingCurve: AnimationCurve = null;\r\n       
+    // private uiPosition: Vector3 = Vector3.one;\r\n        // private uiLocalScale:
+    Vector3 = Vector3.one;\r\n        this.currentPlayer = null;\r\n        this.currentPlayerPosY
+    = UnityEngine_1.Vector3.up;\r\n        // private maxDistance: float = 0.0;\r\n       
+    this.cameraOffset = UnityEngine_1.Vector3.up;\r\n    }\r\n    Start() {\r\n       
+    // this.maxDistance = this.GetComponent<SphereCollider>().radius;\r\n       
+    // this.uiPosition = new Vector3(this.transform.position.x, 0, this.transform.position.z);\r\n       
+    // this.uiLocalScale = this.uiRect.transform.localScale;\r\n        // this.uiRect.GetComponent<Canvas>().worldCamera
+    = GameObject.FindGameObjectWithTag(\"LocalCamera\").GetComponent<Camera>();\r\n       
+    this.uiRect.GetComponent($typeof(UnityEngine_1.Canvas)).worldCamera = UnityEngine_1.GameObject.FindObjectOfType($typeof(UnityEngine_1.Camera));\r\n   
+    }\r\n    // Billboard\r\n    Update() {\r\n        if (this.currentPlayer ==
+    null)\r\n            return;\r\n        this.uiRect.transform.parent.LookAt(UnityEngine_1.Vector3.op_Addition(this.currentPlayer.transform.position,
+    this.currentPlayerPosY));\r\n        // let distance = Vector3.Distance(this.uiPosition,
+    this.currentPlayer.transform.position);\r\n        // distance /= this.maxDistance;\r\n       
+    // this.uiRect.transform.localScale = Vector3.op_Multiply(this.uiLocalScale,
+    this.scalingCurve.Evaluate(distance) * 10);\r\n    }\r\n    OnTriggerEnter(other)
+    {\r\n        if (this.currentPlayer != null)\r\n            return;\r\n       
+    if (!other.CompareTag(GameManager_1.default.PLAYER))\r\n            return;\r\n       
+    this.currentPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.GetPlayer(other.name).character;\r\n       
+    this.SetPosY(this.currentPlayer);\r\n    }\r\n    OnTriggerExit(other) {\r\n       
+    // this.uiRect.localScale = this.uiLocalScale;\r\n        this.uiRect.transform.parent.localRotation
+    = UnityEngine_1.Quaternion.identity;\r\n        this.currentPlayer = null;\r\n   
+    }\r\n    SetPosY(character) {\r\n        // this.uiPosition.y = character.characterController.height
+    / 2;\r\n        this.currentPlayerPosY = UnityEngine_1.Vector3.op_Addition(this.cameraOffset,
+    UnityEngine_1.Vector3.op_Multiply(UnityEngine_1.Vector3.up, character.characterController.height
+    / 2));\r\n    }\r\n}\r\nexports.default = ScalingPopUI;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiU2NhbGluZ1BvcFVJLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiU2NhbGluZ1BvcFVJLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZFQUEyRjtBQUUzRiw2Q0FBc0k7QUFDdEksMERBQW1EO0FBRW5ELE1BQXFCLFlBQWEsU0FBUSxxQ0FBcUI7SUFBL0Q7O1FBR1ksV0FBTSxHQUFrQixJQUFJLENBQUM7UUFDckMsb0JBQW9CO1FBQ3BCLCtDQUErQztRQUUvQyw2Q0FBNkM7UUFDN0MsK0NBQStDO1FBQ3ZDLGtCQUFhLEdBQW9CLElBQUksQ0FBQztRQUN0QyxzQkFBaUIsR0FBWSxxQkFBTyxDQUFDLEVBQUUsQ0FBQztRQUNoRCxvQ0FBb0M7UUFFNUIsaUJBQVksR0FBWSxxQkFBTyxDQUFDLEVBQUUsQ0FBQztJQTJDL0MsQ0FBQztJQXpDVyxLQUFLO1FBRVQsaUVBQWlFO1FBQ2pFLDBGQUEwRjtRQUMxRix3REFBd0Q7UUFDeEQsMkhBQTJIO1FBQzNILElBQUksQ0FBQyxNQUFNLENBQUMsWUFBWSxTQUFDLG9CQUFNLEdBQUksV0FBVyxHQUFHLHdCQUFVLENBQUMsZ0JBQWdCLFNBQUMsb0JBQU0sRUFBRyxDQUFDO0lBQzNGLENBQUM7SUFFRCxZQUFZO0lBQ0osTUFBTTtRQUVWLElBQUksSUFBSSxDQUFDLGFBQWEsSUFBSSxJQUFJO1lBQUUsT0FBTztRQUV2QyxJQUFJLENBQUMsTUFBTSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsTUFBTSxDQUFDLHFCQUFPLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxhQUFhLENBQUMsU0FBUyxDQUFDLFFBQVEsRUFBRSxJQUFJLENBQUMsaUJBQWlCLENBQUMsQ0FBQyxDQUFDO1FBQ3hILDJGQUEyRjtRQUMzRixnQ0FBZ0M7UUFDaEMsd0hBQXdIO0lBQzVILENBQUM7SUFFTyxjQUFjLENBQUMsS0FBZTtRQUVsQyxJQUFJLElBQUksQ0FBQyxhQUFhLElBQUksSUFBSTtZQUFFLE9BQU87UUFDdkMsSUFBSSxDQUFDLEtBQUssQ0FBQyxVQUFVLENBQUMscUJBQVcsQ0FBQyxNQUFNLENBQUM7WUFBRSxPQUFPO1FBRWxELElBQUksQ0FBQyxhQUFhLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsU0FBUyxDQUFDLEtBQUssQ0FBQyxJQUFJLENBQUMsQ0FBQyxTQUFTLENBQUM7UUFDNUUsSUFBSSxDQUFDLE9BQU8sQ0FBQyxJQUFJLENBQUMsYUFBYSxDQUFDLENBQUM7SUFDckMsQ0FBQztJQUVPLGFBQWEsQ0FBQyxLQUFlO1FBRWpDLDhDQUE4QztRQUM5QyxJQUFJLENBQUMsTUFBTSxDQUFDLFNBQVMsQ0FBQyxNQUFNLENBQUMsYUFBYSxHQUFHLHdCQUFVLENBQUMsUUFBUSxDQUFDO1FBQ2pFLElBQUksQ0FBQyxhQUFhLEdBQUcsSUFBSSxDQUFDO0lBQzlCLENBQUM7SUFFTyxPQUFPLENBQUMsU0FBMEI7UUFFdEMsZ0VBQWdFO1FBQ2hFLElBQUksQ0FBQyxpQkFBaUIsR0FBRyxxQkFBTyxDQUFDLFdBQVcsQ0FBQyxJQUFJLENBQUMsWUFBWSxFQUFFLHFCQUFPLENBQUMsV0FBVyxDQUFDLHFCQUFPLENBQUMsRUFBRSxFQUFFLFNBQVMsQ0FBQyxtQkFBbUIsQ0FBQyxNQUFNLEdBQUcsQ0FBQyxDQUFDLENBQUMsQ0FBQztJQUMvSSxDQUFDO0NBQ0o7QUF4REQsK0JBd0RDIn0=","assetPath":"Assets/Scripts/UI/ScalingPopUI.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"uiRect","type":"UnityEngine.RectTransform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"ScalingPopUI","description":""},"isCompiled":true}'
+  typescriptHash: 4f2010e5db0c0ea5a3fa140c1c97b418
+  onlyWriteTrigger: 0

@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: ac403e34c23e0d6418d09e87ad2c3d7a
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nclass
+    ActiveSwitch extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.activeObject = null;\r\n   
+    }\r\n    OnTriggerEnter(other) {\r\n        this.activeObject.SetActive(true);\r\n   
+    }\r\n    OnTriggerStay(other) {\r\n        if (this.activeObject.activeSelf)\r\n           
+    return;\r\n        this.activeObject.SetActive(true);\r\n    }\r\n    OnTriggerExit(other)
+    {\r\n        this.activeObject.SetActive(false);\r\n    }\r\n}\r\nexports.default
+    = ActiveSwitch;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQWN0aXZlU3dpdGNoU3RheS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIkFjdGl2ZVN3aXRjaFN0YXkudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxpREFBcUQ7QUFJckQsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQUEvRDs7UUFFWSxpQkFBWSxHQUFlLElBQUksQ0FBQztJQWtCNUMsQ0FBQztJQWhCVyxjQUFjLENBQUMsS0FBZTtRQUVsQyxJQUFJLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQztJQUN0QyxDQUFDO0lBRU8sYUFBYSxDQUFDLEtBQWU7UUFFakMsSUFBSSxJQUFJLENBQUMsWUFBWSxDQUFDLFVBQVU7WUFBRSxPQUFPO1FBRXpDLElBQUksQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDLElBQUksQ0FBQyxDQUFDO0lBQ3RDLENBQUM7SUFFTyxhQUFhLENBQUMsS0FBZTtRQUVqQyxJQUFJLENBQUMsWUFBWSxDQUFDLFNBQVMsQ0FBQyxLQUFLLENBQUMsQ0FBQztJQUN2QyxDQUFDO0NBQ0o7QUFwQkQsK0JBb0JDIn0=","assetPath":"Assets/Scripts/MyScripts/ActiveSwitchStay.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"activeObject","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"ActiveSwitch","description":""},"isCompiled":true}'
+  typescriptHash: 2d23de86948587dbd098e6baea8637fa
+  onlyWriteTrigger: 0

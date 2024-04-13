@@ -1,0 +1,4 @@
+[core]
+    remote = zepeto_smartcity
+['remote "zepeto_smartcity"']
+    url = gdrive://15rf74q-LnrySxVFXMOJ-61oaHJTI-ZCD

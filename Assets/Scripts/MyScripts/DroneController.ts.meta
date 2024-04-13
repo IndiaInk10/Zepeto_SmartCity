@@ -1,0 +1,67 @@
+fileFormatVersion: 2
+guid: 38ba14e17bc19bd4796a58794a2ec9e1
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_AI_1 = require(\"UnityEngine.AI\");\r\nconst
+    GameManager_1 = require(\"./GameManager\");\r\nvar DroneState;\r\n(function (DroneState)
+    {\r\n    DroneState[DroneState[\"Stop\"] = 0] = \"Stop\";\r\n    DroneState[DroneState[\"Shipping\"]
+    = 1] = \"Shipping\";\r\n    DroneState[DroneState[\"Arrive\"] = 2] = \"Arrive\";\r\n   
+    DroneState[DroneState[\"Returning\"] = 3] = \"Returning\";\r\n})(DroneState ||
+    (DroneState = {}));\r\nclass DroneController extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.callButton
+    = null;\r\n        this.target = null;\r\n        this.packageRigid = null;\r\n       
+    this.packageParent = null;\r\n        this.navMesh = null;\r\n        this.state
+    = DroneState.Stop;\r\n        this.CoStart = null;\r\n        this.CoArrive =
+    null;\r\n        this.CoReturn = null;\r\n    }\r\n    Start() {\r\n        this.returnPos
+    = this.transform.position;\r\n        this.packageParent = this.packageRigid.transform.parent;\r\n       
+    this.navMesh = this.GetComponent($typeof(UnityEngine_AI_1.NavMeshAgent));\r\n       
+    this.callButton.onClick.AddListener(() => this.OnClickCall());\r\n        this.Invoke(\"SetTarget\",
+    1);\r\n    }\r\n    SetTarget() {\r\n        this.target = GameManager_1.default.localPlayerTr;\r\n   
+    }\r\n    OnClickCall() {\r\n        if (this.state == DroneState.Returning)\r\n           
+    return;\r\n        if (this.target == null) {\r\n            this.CancelInvoke();\r\n           
+    this.SetTarget();\r\n        }\r\n        if (this.CoStart != null)\r\n           
+    this.StopCoroutine(this.CoStart);\r\n        this.CoStart = this.StartCoroutine(this.CoStartToDelivery());\r\n   
+    }\r\n    *CoStartToDelivery() {\r\n        this.state = DroneState.Shipping;\r\n       
+    this.navMesh.SetDestination(this.target.position);\r\n        yield new UnityEngine_1.WaitForSeconds(0.2);\r\n       
+    if (this.CoArrive != null)\r\n            this.StopCoroutine(this.CoArrive);\r\n       
+    this.CoArrive = this.StartCoroutine(this.CoCheckArrive(true));\r\n    }\r\n   
+    *CoCheckArrive(isShipping) {\r\n        let checkState = isShipping ? DroneState.Shipping
+    : DroneState.Returning;\r\n        while (this.state == checkState) {\r\n           
+    if (this.navMesh.remainingDistance < 1.25)\r\n                this.state = DroneState.Arrive;\r\n           
+    yield new UnityEngine_1.WaitForSeconds(0.5);\r\n        }\r\n        if (checkState
+    == DroneState.Shipping)\r\n            this.DropPackage();\r\n        else\r\n           
+    this.ResetPackage();\r\n    }\r\n    DropPackage() {\r\n        this.packageRigid.transform.parent
+    = null;\r\n        this.packageRigid.isKinematic = false;\r\n        if (this.CoReturn
+    != null)\r\n            this.StopCoroutine(this.CoReturn);\r\n        this.CoReturn
+    = this.StartCoroutine(this.CoReturnToBase());\r\n    }\r\n    ResetPackage()
+    {\r\n        this.state = DroneState.Stop;\r\n        this.transform.position
+    = this.returnPos;\r\n        this.transform.rotation = UnityEngine_1.Quaternion.identity;\r\n       
+    this.packageRigid.transform.SetParent(this.packageParent);\r\n        this.packageRigid.transform.localPosition
+    = UnityEngine_1.Vector3.zero;\r\n        this.packageRigid.transform.localRotation
+    = UnityEngine_1.Quaternion.identity;\r\n        this.packageRigid.isKinematic
+    = true;\r\n        this.packageRigid.gameObject.SetActive(true);\r\n    }\r\n   
+    *CoReturnToBase() {\r\n        this.state = DroneState.Returning;\r\n       
+    this.navMesh.SetDestination(this.returnPos);\r\n        yield new UnityEngine_1.WaitForSeconds(0.1);\r\n       
+    if (this.CoArrive != null)\r\n            this.StopCoroutine(this.CoArrive);\r\n       
+    this.CoArrive = this.StartCoroutine(this.CoCheckArrive(false));\r\n    }\r\n}\r\nexports.default
+    = DroneController;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiRHJvbmVDb250cm9sbGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiRHJvbmVDb250cm9sbGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBRXJELDZDQUFpRztBQUVqRyxtREFBNkM7QUFDN0MsK0NBQXVDO0FBRXZDLElBQUssVUFNSjtBQU5ELFdBQUssVUFBVTtJQUVYLDJDQUFJLENBQUE7SUFDSixtREFBUSxDQUFBO0lBQ1IsK0NBQU0sQ0FBQTtJQUNOLHFEQUFTLENBQUE7QUFDYixDQUFDLEVBTkksVUFBVSxLQUFWLFVBQVUsUUFNZDtBQUVELE1BQXFCLGVBQWdCLFNBQVEscUNBQXFCO0lBQWxFOztRQUdZLGVBQVUsR0FBVyxJQUFJLENBQUM7UUFHMUIsV0FBTSxHQUFjLElBQUksQ0FBQztRQUV6QixpQkFBWSxHQUFjLElBQUksQ0FBQztRQUMvQixrQkFBYSxHQUFjLElBQUksQ0FBQztRQUVoQyxZQUFPLEdBQWlCLElBQUksQ0FBQztRQUc3QixVQUFLLEdBQWUsVUFBVSxDQUFDLElBQUksQ0FBQztRQUVwQyxZQUFPLEdBQWMsSUFBSSxDQUFDO1FBQzFCLGFBQVEsR0FBYyxJQUFJLENBQUM7UUFDM0IsYUFBUSxHQUFjLElBQUksQ0FBQztJQTJGdkMsQ0FBQztJQXpGVyxLQUFLO1FBRVQsSUFBSSxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztRQUN6QyxJQUFJLENBQUMsYUFBYSxHQUFHLElBQUksQ0FBQyxZQUFZLENBQUMsU0FBUyxDQUFDLE1BQU0sQ0FBQztRQUV4RCxJQUFJLENBQUMsT0FBTyxHQUFHLElBQUksQ0FBQyxZQUFZLFNBQUMsNkJBQVksRUFBRyxDQUFDO1FBQ2pELElBQUksQ0FBQyxVQUFVLENBQUMsT0FBTyxDQUFDLFdBQVcsQ0FBQyxHQUFHLEVBQUUsQ0FBQyxJQUFJLENBQUMsV0FBVyxFQUFFLENBQUMsQ0FBQztRQUM5RCxJQUFJLENBQUMsTUFBTSxDQUFD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","assetPath":"Assets/Scripts/MyScripts/DroneController.ts","manifest":{"properties":[{"assembly":"UnityEngine.UI","name":"callButton","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"target","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.PhysicsModule","name":"packageRigid","type":"UnityEngine.Rigidbody","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"DroneController","description":""},"isCompiled":true}'
+  typescriptHash: 893e5adf6079f6b1be169fee4f402d2e
+  onlyWriteTrigger: 0

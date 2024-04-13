@@ -1,0 +1,11 @@
+Model Information:
+* title:	Dome Building With UV
+* source:	https://sketchfab.com/3d-models/dome-building-with-uv-4303c1f11ad349cb95ddea44a4160738
+* author:	SierraMarsh (https://sketchfab.com/SierraMarsh)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Dome Building With UV" (https://sketchfab.com/3d-models/dome-building-with-uv-4303c1f11ad349cb95ddea44a4160738) by SierraMarsh (https://sketchfab.com/SierraMarsh) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,71 @@
+fileFormatVersion: 2
+guid: 6e33247107879f34e97b614966a7537e
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nclass MovingBlock extends ZEPETO_Script_1.ZepetoScriptBehaviour
+    {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.timeToMove
+    = 1;\r\n        this.isLocalPlayerOnBlock = false;\r\n        this.characterRotateAroundSpeed
+    = -1;\r\n        this.prevDirection = 0;\r\n        this.clientElapsedTime =
+    0;\r\n    }\r\n    Start() {\r\n        this.moveDirection = 1;\r\n        this.prevDirection
+    = -1;\r\n        this.rigidbody.useGravity = false;\r\n        this.rigidbody.isKinematic
+    = false;\r\n        this.rigidbody.freezeRotation = true;\r\n        this.rigidbody.velocity
+    = UnityEngine_1.Vector3.op_Multiply(this.moveSpeed, this.moveDirection);\r\n       
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    this.localCharacterController = this.localCharacter.GetComponent($typeof(UnityEngine_1.CharacterController));\r\n       
+    });\r\n        this.isLocalPlayerOnBlock = false;\r\n    }\r\n    FixedUpdate()
+    {\r\n        this.clientElapsedTime += UnityEngine_1.Time.fixedDeltaTime;\r\n       
+    // Move the block relative to the current elapsed time. \r\n        this.MoveBlock(this.clientElapsedTime);\r\n       
+    this.MoveLocalCharacterWithBlock();\r\n        if (false == this.isBlockRotating)\r\n           
+    return;\r\n        // Block/Character rotations.\r\n        this.RotateBlock();\r\n       
+    this.RotateCharacterWithBlock();\r\n    }\r\n    OnTriggerEnter(coll) {\r\n       
+    if (coll.gameObject != this.localCharacter.gameObject) {\r\n            return;\r\n       
+    }\r\n        this.isLocalPlayerOnBlock = true;\r\n    }\r\n    OnTriggerExit(coll)
+    {\r\n        if (coll.gameObject != this.localCharacter.gameObject) {\r\n           
+    return;\r\n        }\r\n        this.isLocalPlayerOnBlock = false;\r\n    }\r\n   
+    /* MoveBlock()\r\n       - Controls the block direction/speed.\r\n    */\r\n   
+    MoveBlock(elapsedTime) {\r\n        let predictedDir = (UnityEngine_1.Mathf.Floor(elapsedTime
+    / this.timeToMove)) % 2 == 0 ? 1 : -1;\r\n        // Continuously apply the direction
+    to the predicted direction\r\n        this.moveDirection = predictedDir;\r\n       
+    // Reapply velocity only ff the current direction is different than the previous
+    direction\r\n        if (this.moveDirection != this.prevDirection) {\r\n           
+    // Reapply block speed.\r\n            this.rigidbody.velocity = UnityEngine_1.Vector3.op_Multiply(this.moveSpeed,
+    this.moveDirection);\r\n        }\r\n        this.prevDirection = this.moveDirection;\r\n   
+    }\r\n    /* MoveCharacterWithBlock()\r\n       - Move the local character with
+    the block.\r\n    */\r\n    MoveLocalCharacterWithBlock() {\r\n        if (false
+    == this.isLocalPlayerOnBlock)\r\n            return;\r\n        let velocity
+    = UnityEngine_1.Vector3.op_Multiply(this.moveSpeed, this.moveDirection);\r\n       
+    this.localCharacterController.Move(UnityEngine_1.Vector3.op_Multiply(velocity,
+    UnityEngine_1.Time.fixedDeltaTime));\r\n    }\r\n    /* RotateBlock()\r\n       
+    - Rotate block if the rotation option is enabled.\r\n    */\r\n    RotateBlock()
+    {\r\n        let deltaRotation = UnityEngine_1.Quaternion.Euler(UnityEngine_1.Vector3.op_Multiply(this.eulerAngleVelocity,
+    UnityEngine_1.Time.fixedDeltaTime));\r\n        this.rigidbody.MoveRotation(UnityEngine_1.Quaternion.op_Multiply(this.rigidbody.rotation,
+    deltaRotation));\r\n    }\r\n    /* RotateCharacterWithBlock()\r\n       - If
+    the block rotation is enabled, rotate the character along with the block.\r\n   
+    */\r\n    RotateCharacterWithBlock() {\r\n        // Local character rotation\r\n       
+    if (this.isLocalPlayerOnBlock) {\r\n            this.localCharacter.transform.RotateAround(this.transform.position,
+    UnityEngine_1.Vector3.down, this.characterRotateAroundSpeed);\r\n        }\r\n   
+    }\r\n}\r\nexports.default = MovingBlock;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTW92aW5nQmxvY2suanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJNb3ZpbmdCbG9jay50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLDZDQUEwRztBQUMxRyxpREFBcUQ7QUFDckQsNkVBQTRFO0FBRTVFLE1BQXFCLFdBQVksU0FBUSxxQ0FBcUI7SUFBOUQ7O1FBS1csZUFBVSxHQUFXLENBQUMsQ0FBQztRQUl0Qix5QkFBb0IsR0FBWSxLQUFLLENBQUM7UUFRdkMsK0JBQTBCLEdBQVcsQ0FBQyxDQUFDLENBQUM7UUFFdkMsa0JBQWEsR0FBVyxDQUFDLENBQUM7UUFDMUIsc0JBQWlCLEdBQVcsQ0FBQyxDQUFDO0lBaUcxQyxDQUFDO0lBL0ZXLEtBQUs7UUFFVCxJQUFJLENBQUMsYUFBYSxHQUFHLENBQUMsQ0FBQztRQUN2QixJQUFJLENBQUMsYUFBYSxHQUFHLENBQUMsQ0FBQyxDQUFDO1FBRXhCLElBQUksQ0FBQyxTQUFTLENBQUMsVUFBVSxHQUFHLEtBQUssQ0FBQztRQUNsQyxJQUFJLENBQUMsU0FBUyxDQUFDLFdBQVcsR0FBRyxLQUFLLENBQUM7UUFDbkMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxjQUFjLEdBQUcsSUFBSSxDQUFDO1FBQ3JDLElBQUksQ0FBQyxTQUFTLENBQUMsUUFBUSxHQWxDNkMscUJBQU8sQ0F5SHFoa0IsV0FBWSxDQXZGbGxrQixJQUFJLENBQUMsU0FBUyxFQUFHLElBQUksQ0FBQyxhQUFhLENBQUEsQ0FBQztRQUU5RCwyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxjQUFjLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7WUFDaEYsSUFBSSxDQUFDLHdCQUF3QixHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsWUFBWSxTQUFDLGlDQUFtQixFQUFHLENBQUM7UUFDNUYsQ0FBQyxDQUFDLENB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","assetPath":"Assets/Scripts/MovingBlock.ts","manifest":{"properties":[{"assembly":"UnityEngine.PhysicsModule","name":"rigidbody","type":"UnityEngine.Rigidbody","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Move
+    Block\""]}]},{"assembly":"UnityEngine.CoreModule","name":"moveSpeed","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"timeToMove","type":"System.Single","isArray":false,"initValue":["1"],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"isBlockRotating","type":"System.Boolean","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Rotate
+    Block (Option)\""]}]},{"assembly":"UnityEngine.CoreModule","name":"eulerAngleVelocity","type":"UnityEngine.Vector3","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"characterRotateAroundSpeed","type":"System.Single","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"MovingBlock","description":""},"isCompiled":true}'
+  typescriptHash: d1d18281097031ca18363f5fa17fa21a
+  onlyWriteTrigger: 0

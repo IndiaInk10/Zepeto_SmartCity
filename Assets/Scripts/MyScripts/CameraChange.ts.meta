@@ -1,0 +1,45 @@
+fileFormatVersion: 2
+guid: d365038c199d4064f8e5fc9e9e74cc46
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst
+    ZEPETO_Character_Controller_1 = require(\"ZEPETO.Character.Controller\");\r\nconst
+    UnityEngine_1 = require(\"UnityEngine\");\r\nconst UnityEngine_UI_1 = require(\"UnityEngine.UI\");\r\nconst
+    GameManager_1 = require(\"./GameManager\");\r\nconst MoveWayPoints_1 = require(\"./MoveWayPoints\");\r\nclass
+    CameraChange extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        this.followTarget = null;\r\n       
+    this.sitPos = null;\r\n        this.sitAnim = null;\r\n        this.button =
+    null;\r\n        this.sprite = null;\r\n        this.car = null;\r\n        this.image
+    = null;\r\n        this.isRide = false;\r\n    }\r\n    Start() {\r\n       
+    this.image = this.GetComponent($typeof(UnityEngine_UI_1.Image));\r\n        this.button.onClick.AddListener(()
+    => this.OnClickChange());\r\n    }\r\n    OnClickChange() {\r\n        this.isRide
+    = !this.isRide;\r\n        let target = this.isRide ? this.followTarget : GameManager_1.default.localPlayerTr;\r\n       
+    let localPlayer = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n       
+    this.image.sprite = this.sprite[Number(this.isRide)];\r\n        if (this.isRide)
+    {\r\n            GameManager_1.default.isSit = true;\r\n            this.car.GetComponent($typeof(MoveWayPoints_1.default)).isStart
+    = true;\r\n            for (let i = 0; i < 6; i++) {\r\n                localPlayer.transform.position
+    = this.sitPos.position;\r\n                localPlayer.transform.rotation = this.sitPos.rotation;\r\n           
+    }\r\n            localPlayer.transform.SetParent(this.sitPos);\r\n           
+    localPlayer.SetGesture(this.sitAnim);\r\n        }\r\n        else {\r\n           
+    GameManager_1.default.isSit = false;\r\n            localPlayer.transform.parent
+    = null;\r\n            localPlayer.CancelGesture();\r\n        }\r\n        ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoCamera.SetFollowTarget(target);\r\n   
+    }\r\n}\r\nexports.default = CameraChange;\r\n//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiQ2FtZXJhQ2hhbmdlLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiQ2FtZXJhQ2hhbmdlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsaURBQXFEO0FBQ3JELDZFQUEwRTtBQUUxRSw2Q0FBMEU7QUFDMUUsbURBQStDO0FBQy9DLCtDQUF3QztBQUN4QyxtREFBNEM7QUFFNUMsTUFBcUIsWUFBYSxTQUFRLHFDQUFxQjtJQUEvRDs7UUFFWSxpQkFBWSxHQUFjLElBQUksQ0FBQztRQUcvQixXQUFNLEdBQWMsSUFBSSxDQUFDO1FBRXpCLFlBQU8sR0FBa0IsSUFBSSxDQUFDO1FBRzlCLFdBQU0sR0FBVyxJQUFJLENBQUM7UUFFdEIsV0FBTSxHQUFhLElBQUksQ0FBQztRQUd4QixRQUFHLEdBQWUsSUFBSSxDQUFDO1FBRXZCLFVBQUssR0FBVSxJQUFJLENBQUM7UUFDcEIsV0FBTSxHQUFZLEtBQUssQ0FBQztJQW9DcEMsQ0FBQztJQWxDVyxLQUFLO1FBRVQsSUFBSSxDQUFDLEtBQUssR0FBRyxJQUFJLENBQUMsWUFBWSxTQUFDLHNCQUFLLEVBQUcsQ0FBQztRQUN4QyxJQUFJLENBQUMsTUFBTSxDQUFDLE9BQU8sQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFLENBQUMsSUFBSSxDQUFDLGFBQWEsRUFBRSxDQUFDLENBQUM7SUFDaEUsQ0FBQztJQUVNLGFBQWE7UUFFaEIsSUFBSSxDQUFDLE1BQU0sR0FBRyxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUM7UUFDM0IsSUFBSSxNQUFNLEdBQWMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUFDLFlBQVksQ0FBQyxDQUFDLENBQUMscUJBQVcsQ0FBQyxhQUFhLENBQUM7UUFDcEYsSUFBSSxXQUFXLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7UUFFNUUsSUFBSSxDQUFDLEtBQUssQ0FBQyxNQUFNLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLE1BQU0sQ0FBQyxDQUFDLENBQUM7UUFFckQsSUFBSSxJQUFJLENBQUMsTUFBTSxFQUNmO1lBQ0kscUJBQVcsQ0FBQyxLQUFLLEdBQUcsSUFBSSxDQUFDO1lBQ3pCLElBQUksQ0FBQyxHQUFHLENBQUMsWUFBWSxTQUFDLHVCQUFhLEdBQUksT0FBTyxHQUFHLElBQUksQ0FBQztZQUN0RCxLQUFLLElBQUksQ0FBQyxHQUFHLENBQUMsRUFBRSxDQUFDLEdBQUcsQ0FBQyxFQUFFLENBQUMsRUFBRSxFQUFFO2dCQUN4QixXQUFXLENBQUMsU0FBUyxDQUFDLFFBQVEsR0FBRyxJQUFJLENBQUMsTUFBTSxDQUFDLFFBQVEsQ0FBQztnQkFDdEQsV0FBVyxDQUFDLFNBQVMsQ0FBQyxRQUFRLEdBQUcsSUFBSSxDQUFDLE1BQU0sQ0FBQyxRQUFRLENBQUM7YUFDekQ7WUFDRCxXQUFXLENBQUMsU0FBUyxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUM7WUFDN0MsV0FBVyxDQUFDLFVBQVUsQ0FBQyxJQUFJLENBQUMsT0FBTyxDQUFDLENBQUM7U0FDeEM7YUFFRDtZQUNJLHFCQUFXLENBQUMsS0FBSyxHQUFHLEtBQUssQ0FBQztZQUMxQixXQUFXLENBQUMsU0FBUyxDQUFDLE1BQU0sR0FBRyxJQUFJLENBQUM7WUFDcEMsV0FBVyxDQUFDLGFBQWEsRUFBRSxDQUFDO1NBQy9CO1FBRUQsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxlQUFlLENBQUMsTUFBTSxDQUFDLENBQUM7SUFDNUUsQ0FBQztDQUNKO0FBdERELCtCQXNEQyJ9","assetPath":"Assets/Scripts/MyScripts/CameraChange.ts","manifest":{"properties":[{"assembly":"UnityEngine.CoreModule","name":"followTarget","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"sitPos","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.AnimationModule","name":"sitAnim","type":"UnityEngine.AnimationClip","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.UI","name":"button","type":"UnityEngine.UI.Button","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"sprite","type":"UnityEngine.Sprite[]","isArray":true,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]},{"assembly":"UnityEngine.CoreModule","name":"car","type":"UnityEngine.GameObject","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[{"name":"SerializeField","args":[]}]}],"name":"CameraChange","description":""},"isCompiled":true}'
+  typescriptHash: fd213ab6e2875c13edb03527647edf95
+  onlyWriteTrigger: 0

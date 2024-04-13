@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Cinema
+* source:	https://sketchfab.com/3d-models/low-poly-cinema-c0fba0ff34024090b60c39028f790163
+* author:	eccitatore (https://sketchfab.com/eccitatore)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Cinema" (https://sketchfab.com/3d-models/low-poly-cinema-c0fba0ff34024090b60c39028f790163) by eccitatore (https://sketchfab.com/eccitatore) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

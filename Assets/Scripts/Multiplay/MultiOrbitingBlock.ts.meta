@@ -1,0 +1,138 @@
+fileFormatVersion: 2
+guid: d3923a46fade797478185c7624f49ed6
+importerOverride: ZEPETO.Script.Compiler:ZEPETO.Script:TypescriptAssetImporter
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: -1123457745, guid: 54cf806323ffe4418a4ce4cc63fe6b9d, type: 3}
+  isAssemblyDeclarations: 0
+  assembly: 
+  generateAllTypes: 1
+  types: []
+  generateWrapper: 0
+  overrideWrapperTypes: 0
+  wrapperTypes: []
+  WrapperFilters: []
+  wrapperOutputDirectory: Generated
+  compiledResult: '{"source":"\"use strict\";\r\nObject.defineProperty(exports, \"__esModule\",
+    { value: true });\r\nconst UnityEngine_1 = require(\"UnityEngine\");\r\nconst
+    ZEPETO_Script_1 = require(\"ZEPETO.Script\");\r\nconst ZEPETO_Character_Controller_1
+    = require(\"ZEPETO.Character.Controller\");\r\nconst BlockMultiplay_1 = require(\"./BlockMultiplay\");\r\nclass
+    MultiOrbitingBlock extends ZEPETO_Script_1.ZepetoScriptBehaviour {\r\n    constructor()
+    {\r\n        super(...arguments);\r\n        // Block orbit variables\r\n       
+    this.rotSpeed = 0;\r\n        this.characterSpeedControlValue = 6;\r\n       
+    // Multiplayer Sync Variables\r\n        this.isMultiplayMode = false;\r\n       
+    this.syncCharacterTransforms = new Map();\r\n        this.myIdx = 0;\r\n       
+    this.isLocalPlayerOnBlock = false;\r\n        this.prevBlockPosition = UnityEngine_1.Vector3.zero;\r\n       
+    this.isLocalCharacterLanded = false;\r\n        this.IsJumpingOnBlock = false;\r\n       
+    this.stopToDetectTriggerExit = false;\r\n    }\r\n    Start() {\r\n        this.startPosition
+    = this.transform.position;\r\n        this.startRotation = this.transform.rotation;\r\n       
+    ZEPETO_Character_Controller_1.ZepetoPlayers.instance.OnAddedLocalPlayer.AddListener(()
+    => {\r\n            this.localCharacter = ZEPETO_Character_Controller_1.ZepetoPlayers.instance.LocalPlayer.zepetoPlayer.character;\r\n           
+    this.localCharacterController = this.localCharacter.GetComponent($typeof(UnityEngine_1.CharacterController));\r\n       
+    });\r\n        this.isLocalPlayerOnBlock = false;\r\n        this.isMultiplayMode
+    = false;\r\n        this.rotateAroundAxis = UnityEngine_1.Vector3.down;\r\n       
+    this.relativePosAtJump = UnityEngine_1.Vector3.zero;\r\n        this.renderer
+    = this.GetComponentInChildren($typeof(UnityEngine_1.Renderer));\r\n    }\r\n   
+    Update() {\r\n        // Block orbit\r\n        this.transform.RotateAround(this.rotatingPoint.position,
+    this.rotateAroundAxis, this.rotSpeed * UnityEngine_1.Time.deltaTime);\r\n       
+    // Move the characters along with the orbiting block\r\n        this.MoveCharacterWithBlock();\r\n   
+    }\r\n    OnTriggerEnter(coll) {\r\n        if (coll.gameObject == this.localCharacter.gameObject)
+    {\r\n            this.isLocalPlayerOnBlock = true;\r\n        }\r\n        else
+    {\r\n            return;\r\n        }\r\n        if (false == this.isMultiplayMode)
+    {\r\n            return;\r\n        }\r\n        this.blockMultiplayManager?.SendOnBlockTriggerEnter(this.myIdx);\r\n   
+    }\r\n    OnTriggerStay(coll) {\r\n        if (false == this.isMultiplayMode)
+    {\r\n            return;\r\n        }\r\n        if (coll.gameObject != this.localCharacter.gameObject)
+    {\r\n            return;\r\n        }\r\n        // A conditional statement to
+    send a message about the landing location only once.\r\n        if (this.isLocalCharacterLanded)
+    {\r\n            this.isLocalCharacterLanded = false;\r\n            if (this.isMultiplayMode)
+    {\r\n                let diff = UnityEngine_1.Vector3.op_Subtraction(this.transform.position,
+    this.localCharacter.transform.position);\r\n                this.blockMultiplayManager.SendOnLandedBlock(this.myIdx,
+    diff);\r\n            }\r\n        }\r\n        if (this.localCharacter.CurrentState
+    == ZEPETO_Character_Controller_1.CharacterState.JumpIdle || this.localCharacter.CurrentState
+    == ZEPETO_Character_Controller_1.CharacterState.JumpMove) {\r\n            this.relativePosAtJump
+    = UnityEngine_1.Vector3.op_Subtraction(this.transform.position, this.localCharacter.transform.position);\r\n       
+    }\r\n    }\r\n    OnTriggerExit(coll) {\r\n        if (coll.gameObject == this.localCharacter.gameObject)
+    {\r\n            this.isLocalPlayerOnBlock = false;\r\n        }\r\n        else
+    {\r\n            return;\r\n        }\r\n        if (false == this.isMultiplayMode
+    || true == this.stopToDetectTriggerExit) {\r\n            return;\r\n       
+    }\r\n        // Send message to server if local player character (player.isOnBlock
+    = false)\r\n        this.blockMultiplayManager?.SendOnBlockTriggerExit(this.myIdx,
+    this.relativePosAtJump);\r\n    }\r\n    SetIsCharacterLandedOnBlock() {\r\n       
+    this.isLocalCharacterLanded = true;\r\n    }\r\n    /* MoveCharacterWithBlock()\r\n      
+    - Move the character along with the block\r\n    */\r\n    MoveCharacterWithBlock()
+    {\r\n        // Block movement direction vector \r\n        let curBlockPosition
+    = this.transform.position;\r\n        let forwardVector = (UnityEngine_1.Vector3.op_Subtraction(curBlockPosition,
+    this.prevBlockPosition)).normalized;\r\n        this.prevBlockPosition = this.transform.position;\r\n       
+    // Move the local character\r\n        if (this.isLocalPlayerOnBlock) {\r\n           
+    this.localCharacterController.Move(UnityEngine_1.Vector3.op_Multiply(UnityEngine_1.Vector3.op_Multiply(forwardVector,
+    (this.rotSpeed / this.characterSpeedControlValue)), UnityEngine_1.Time.deltaTime));\r\n       
+    }\r\n        if (this.syncCharacterTransforms.size == 0)\r\n            return;\r\n       
+    // Move the multiplay character\r\n        this.syncCharacterTransforms.forEach((characterTr,
+    name) => {\r\n            if (null != characterTr) {\r\n                characterTr.RotateAround(this.rotatingPoint.position,
+    this.rotateAroundAxis, this.rotSpeed * UnityEngine_1.Time.deltaTime);\r\n           
+    }\r\n            else {\r\n                this.syncCharacterTransforms.delete(name);\r\n           
+    }\r\n        });\r\n    }\r\n    // ---------------------------------- Multiplay
+    -----------------------------------\r\n    /* SetBlockIdx()\r\n       - Sets
+    the index of the current block to synchronize the position of the character on
+    the block in multiplayer.\r\n    */\r\n    SetBlockIdx(idx) {\r\n        this.myIdx
+    = idx;\r\n    }\r\n    /* SetMultiRoomElapsedTime()\r\n       - Sets the time
+    elapsed in the current room for block position synchronization during multiplayer
+    synchronization.\r\n    */\r\n    InitMultiplayMode(elapsedTime) {\r\n       
+    // Enable multiplayer mode\r\n        this.isMultiplayMode = true;\r\n       
+    if (null == this.blockMultiplayManager) {\r\n            this.blockMultiplayManager
+    = BlockMultiplay_1.default.GetInstance();\r\n        }\r\n        // Execute
+    only the first time.\r\n        this.CalculatePredictedTransform(elapsedTime);\r\n   
+    }\r\n    /* CalculatePredictedPosition()\r\n       - Calculates the predicted
+    position of the block based on the time elapsed in the current room.\r\n    */\r\n   
+    CalculatePredictedTransform(elapsedTime) {\r\n        let center = this.rotatingPoint.position;\r\n       
+    let axis = this.rotateAroundAxis;\r\n        let angle = this.rotSpeed * elapsedTime;\r\n       
+    // Rotate Around Algorithm\r\n        let pos = this.startPosition;\r\n       
+    let rot = UnityEngine_1.Quaternion.AngleAxis(angle, axis);\r\n        let dir
+    = UnityEngine_1.Vector3.op_Subtraction(pos, center);\r\n        dir = UnityEngine_1.Quaternion.op_Multiply(rot,
+    dir);\r\n        let predictedPos = UnityEngine_1.Vector3.op_Addition(center,
+    dir);\r\n        let myRot = this.startRotation;\r\n        let predictedRot
+    = UnityEngine_1.Quaternion.op_Multiply(UnityEngine_1.Quaternion.op_Multiply(UnityEngine_1.Quaternion.op_Multiply(myRot,
+    UnityEngine_1.Quaternion.Inverse(myRot)), rot), myRot);\r\n        // Adjust
+    the position and movement direction of the block to the predicted values\r\n       
+    this.transform.position = predictedPos;\r\n        this.transform.rotation =
+    predictedRot;\r\n        // Local character repositioning\r\n        if (this.isLocalPlayerOnBlock)
+    {\r\n            this.StartCoroutine(this.TeleportCharacter(predictedPos));\r\n       
+    }\r\n        // Synchronization characters will be coordinated by the server.\r\n       
+    this.syncCharacterTransforms.forEach((characterTr, name) => {\r\n           
+    if (null != characterTr) {\r\n                let characterPosition = new UnityEngine_1.Vector3(predictedPos.x,
+    this.renderer.bounds.max.y, predictedPos.z);\r\n                characterTr.position
+    = characterPosition;\r\n            }\r\n            else {\r\n               
+    // If the player leaves the room while on a block.\r\n                this.syncCharacterTransforms.delete(name);\r\n           
+    }\r\n        });\r\n    }\r\n    *TeleportCharacter(predictedPos) {\r\n       
+    this.stopToDetectTriggerExit = true; // Ignore anything out of trigger during
+    positioning\r\n        this.isLocalPlayerOnBlock = false; // To ensure that blocks
+    don''t carry their characters while teleporting\r\n        while (true) {\r\n           
+    yield null;\r\n            let adjustValue = UnityEngine_1.Random.Range(-0.3,
+    0.3);\r\n            let targetPos = new UnityEngine_1.Vector3(predictedPos.x
+    + adjustValue, this.renderer.bounds.max.y, predictedPos.z + adjustValue);\r\n           
+    this.localCharacter.transform.position = targetPos;\r\n            if (UnityEngine_1.Vector3.op_Equality(this.localCharacter.transform.position,
+    targetPos)) {\r\n                this.stopToDetectTriggerExit = false;\r\n               
+    break;\r\n            }\r\n        }\r\n    }\r\n    /* AddCharacterOnBlock()\r\n     
+    - Register the character to be carried by the block.\r\n    */\r\n    AddCharacterOnBlock(sessionId,
+    relativeVector, carrierParent) {\r\n        let position = UnityEngine_1.Vector3.op_Subtraction(this.transform.position,
+    relativeVector);\r\n        let result = new UnityEngine_1.Vector3(position.x,
+    this.renderer.bounds.max.y, position.z);\r\n        carrierParent.position =
+    result;\r\n        if (false == this.syncCharacterTransforms.has(sessionId))
+    {\r\n            this.syncCharacterTransforms.set(sessionId, carrierParent);\r\n       
+    }\r\n    }\r\n    /* RemoveCharacterOnBlock()\r\n       - Remove block from the
+    character its carrying.\r\n    */\r\n    RemoveCharacterOnBlock(sessionId, relativePos,
+    carrierParent) {\r\n        let position = UnityEngine_1.Vector3.op_Subtraction(this.transform.position,
+    relativePos);\r\n        carrierParent.position = position;\r\n        if (this.syncCharacterTransforms.has(sessionId))
+    {\r\n            this.syncCharacterTransforms.delete(sessionId);\r\n        }\r\n   
+    }\r\n    HasPlayerInCarrierPool(sessionId) {\r\n        if (this.syncCharacterTransforms.has(sessionId))
+    {\r\n            return true;\r\n        }\r\n        else {\r\n            return
+    false;\r\n        }\r\n    }\r\n}\r\nexports.default = MultiOrbitingBlock;\r\n//#
+    sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiTXVsdGlPcmJpdGluZ0Jsb2NrLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiTXVsdGlPcmJpdGluZ0Jsb2NrLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsNkNBQW9IO0FBQ3BILGlEQUFxRDtBQUNyRCw2RUFBNEY7QUFDNUYscURBQThDO0FBRTlDLE1BQXFCLGtCQUFtQixTQUFRLHFDQUFxQjtJQUFyRTs7UUFFSSx3QkFBd0I7UUFFakIsYUFBUSxHQUFXLENBQUMsQ0FBQztRQUVyQiwrQkFBMEIsR0FBVyxDQUFDLENBQUM7UUFPOUMsNkJBQTZCO1FBQ3JCLG9CQUFlLEdBQVksS0FBSyxDQUFDO1FBQ2pDLDRCQUF1QixHQUEyQixJQUFJLEdBQUcsRUFBcUIsQ0FBQztRQUMvRSxVQUFLLEdBQVcsQ0FBQyxDQUFDO1FBRWxCLHlCQUFvQixHQUFZLEtBQUssQ0FBQztRQUl0QyxzQkFBaUIsR0FBWSxxQkFBTyxDQUFDLElBQUksQ0FBQztRQUkxQywyQkFBc0IsR0FBWSxLQUFLLENBQUM7UUFHeEMscUJBQWdCLEdBQVksS0FBSyxDQUFDO1FBMElsQyw0QkFBdUIsR0FBWSxLQUFLLENBQUM7SUE4RnJELENBQUM7SUFyT1csS0FBSztRQUNULElBQUksQ0FBQyxhQUFhLEdBQUcsSUFBSSxDQUFDLFNBQVMsQ0FBQyxRQUFRLENBQUM7UUFDN0MsSUFBSSxDQUFDLGFBQWEsR0FBRyxJQUFJLENBQUMsU0FBUyxDQUFDLFFBQVEsQ0FBQztRQUU3QywyQ0FBYSxDQUFDLFFBQVEsQ0FBQyxrQkFBa0IsQ0FBQyxXQUFXLENBQUMsR0FBRyxFQUFFO1lBQ3ZELElBQUksQ0FBQyxjQUFjLEdBQUcsMkNBQWEsQ0FBQyxRQUFRLENBQUMsV0FBVyxDQUFDLFlBQVksQ0FBQyxTQUFTLENBQUM7WUFDaEYsSUFBSSxDQUFDLHdCQUF3QixHQUFHLElBQUksQ0FBQyxjQUFjLENBQUMsWUFBWSxTQUFDLGlDQUFtQixFQUFHLENBQUM7UUFDNUYsQ0FBQyxDQUFDLENBQUM7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","assetPath":"Assets/Scripts/Multiplay/MultiOrbitingBlock.ts","manifest":{"properties":[{"assembly":"mscorlib","name":"rotSpeed","type":"System.Single","isArray":false,"initValue":["0"],"enumKeys":[],"enumValues":[],"attributes":[{"name":"Header","args":["\"Orbit
+    Block\""]}]},{"assembly":"UnityEngine.CoreModule","name":"rotatingPoint","type":"UnityEngine.Transform","isArray":false,"initValue":[],"enumKeys":[],"enumValues":[],"attributes":[]},{"assembly":"mscorlib","name":"characterSpeedControlValue","type":"System.Single","isArray":false,"initValue":["6"],"enumKeys":[],"enumValues":[],"attributes":[]}],"name":"MultiOrbitingBlock","description":""},"isCompiled":true}'
+  typescriptHash: 646f23adda8c117913fc1cf781df9779
+  onlyWriteTrigger: 0
